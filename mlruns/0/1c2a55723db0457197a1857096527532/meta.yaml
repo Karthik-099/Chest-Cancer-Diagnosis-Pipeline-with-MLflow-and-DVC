@@ -1,0 +1,15 @@
+artifact_uri: file:///home/karthik/Documents/Chest-Cancer-Diagnosis-Pipeline-with-MLflow-and-DVC/mlruns/0/1c2a55723db0457197a1857096527532/artifacts
+end_time: 1723442718831
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1c2a55723db0457197a1857096527532
+run_name: invincible-tern-414
+run_uuid: 1c2a55723db0457197a1857096527532
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723442714566
+status: 3
+tags: []
+user_id: karthik

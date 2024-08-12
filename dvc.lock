@@ -1,0 +1,113 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/cnnClassifier/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 8886c303e3578ebd67cc9613e17602e3
+      size: 565
+    - path: src/cnnClassifier/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: bad788253475f50d44fdaa7237967b49
+      size: 883
+    outs:
+    - path: artifacts/data_ingestion/Chest-CT-Scan-data
+      hash: md5
+      md5: e0a2c120e6f96a38d0407e5cde8d5b8b.dir
+      size: 43286575
+      nfiles: 315
+  prepare_base_model:
+    cmd: python src/cnnClassifier/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 8886c303e3578ebd67cc9613e17602e3
+      size: 565
+    - path: src/cnnClassifier/pipeline/stage_02_prepare_base_model.py
+      hash: md5
+      md5: 30c63470719d961e32045908b7c0772d
+      size: 966
+    params:
+      params.yaml:
+        CLASSES: 4
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.01
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 63e9998749f20e17981428ff7630bbc4.dir
+      size: 118255264
+      nfiles: 2
+  training:
+    cmd: python src/cnnClassifier/pipeline/stage_03_model_trainer.py
+    deps:
+    - path: artifacts/data_ingestion/Chest-CT-Scan-data
+      hash: md5
+      md5: e0a2c120e6f96a38d0407e5cde8d5b8b.dir
+      size: 43286575
+      nfiles: 315
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 63e9998749f20e17981428ff7630bbc4.dir
+      size: 118255264
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 8886c303e3578ebd67cc9613e17602e3
+      size: 565
+    - path: src/cnnClassifier/pipeline/stage_03_model_trainer.py
+      hash: md5
+      md5: 693885f9d0cc4717d660ef69b44fad94
+      size: 906
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 16
+        EPOCHS: 2
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: aaedf15df6261c0b170b54b658e09874
+      size: 59738928
+  evaluation:
+    cmd: python src/cnnClassifier/pipeline/stage_04_model_evaluation.py
+    deps:
+    - path: artifacts/data_ingestion/Chest-CT-Scan-data
+      hash: md5
+      md5: e0a2c120e6f96a38d0407e5cde8d5b8b.dir
+      size: 43286575
+      nfiles: 315
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: aaedf15df6261c0b170b54b658e09874
+      size: 59738928
+    - path: config/config.yaml
+      hash: md5
+      md5: 8886c303e3578ebd67cc9613e17602e3
+      size: 565
+    - path: src/cnnClassifier/pipeline/stage_04_model_evaluation.py
+      hash: md5
+      md5: 1f79c7d7badbd984d19c407197726dfb
+      size: 903
+    params:
+      params.yaml:
+        BATCH_SIZE: 16
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: a18a6aa575cff6de29f06c95207b37ad
+      size: 71

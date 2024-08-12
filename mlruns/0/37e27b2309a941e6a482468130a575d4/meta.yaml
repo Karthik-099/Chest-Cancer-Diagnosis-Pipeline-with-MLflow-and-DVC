@@ -1,0 +1,15 @@
+artifact_uri: file:///home/karthik/Documents/Chest-Cancer-Diagnosis-Pipeline-with-MLflow-and-DVC/mlruns/0/37e27b2309a941e6a482468130a575d4/artifacts
+end_time: 1723439714241
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 37e27b2309a941e6a482468130a575d4
+run_name: resilient-quail-411
+run_uuid: 37e27b2309a941e6a482468130a575d4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723439709854
+status: 3
+tags: []
+user_id: karthik
